@@ -5698,7 +5698,7 @@ int op_dimlayer_bl_enable_real = 0;
 int op_dimlayer_bl = 0;
 bool finger_type = false;
 //extern int aod_layer_hide;
-extern int op_dimlayer_bl_enable;
+//extern int op_dimlayer_bl_enable;
 extern int op_dp_enable;
 extern int sde_plane_check_fingerprint_layer(const struct drm_plane_state *drm_state);
 static int sde_crtc_onscreenfinger_atomic_check(struct sde_crtc_state *cstate,
@@ -5750,20 +5750,14 @@ static int sde_crtc_onscreenfinger_atomic_check(struct sde_crtc_state *cstate,
 			fppressed_index = i;
 			fppressed_index_rt = i;
 		}
-        if (mode ==3)
-            aod_index = i;
+                if (mode ==3)
+                    aod_index = i;
 	}
 
-	if (fp_mode == 1) {
+	if(fp_index >=0 && dim_mode!=0)
 		display->panel->dim_status = true;
-		cstate->fingerprint_pressed = true;
-		return 0;
-	} else {
+	else
 		display->panel->dim_status = false;
-		cstate->fingerprint_pressed = false;
-		cstate->fingerprint_dim_layer = NULL;
-		return 0;
-	}
 
 	if(aod_index <0){
 		oneplus_aod_hid = 0;
@@ -5907,6 +5901,15 @@ static int sde_crtc_onscreenfinger_atomic_check(struct sde_crtc_state *cstate,
 		cstate->fingerprint_dim_layer = NULL;
 	}
 
+        if (fp_mode == 1) {
+                display->panel->dim_status = true;
+                cstate->fingerprint_pressed = true;
+                return 0;
+        } else if (fp_mode == 0) {
+                display->panel->dim_status = false;
+                cstate->fingerprint_pressed = false;
+                return 0;
+        }
 	return 0;
 }
 
