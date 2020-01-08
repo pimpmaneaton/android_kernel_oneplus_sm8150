@@ -43,7 +43,7 @@ module_param_named(time_measure, cc_time_measure, bool, 0644);
 static bool cc_cpu_boost_enable = true;
 module_param_named(cpu_boost_enable, cc_cpu_boost_enable, bool, 0644);
 
-static bool cc_ddr_boost_enable = true;
+bool cc_ddr_boost_enable = true;
 module_param_named(ddr_boost_enable, cc_ddr_boost_enable, bool, 0644);
 
 bool cc_ddr_lower_bound_enable = false;
